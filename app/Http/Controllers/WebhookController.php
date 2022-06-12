@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Command;
+use App\Models\CommandText;
 use App\Traits\SendMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,9 +19,21 @@ class WebhookController extends Controller
         $text_body = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $receiver = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['from'];
 
-        Log::debug($text_body);
-        Log::debug($receiver);
-        Log::debug($this->sendTextMessage($receiver, $text_body));
+//        Log::debug($text_body);
+//        Log::debug($receiver);
+        $commands=CommandText::select('content','command_id','lang')->Active()->get();
+        foreach ($commands as $command )
+        {
+            if($text_body==$command['content'])
+            {
+                $getReply=Command::select('command_reply','lang')->where('command_id',$command['command_id'])->where
+                ('lang',$command['lang'])->get();
+//                Log::debug($this->sendTextMessage($receiver, $text_body));
+                Log::debug($this->sendTextMessage($receiver, $getReply['command_reply']));
+
+            }
+
+        }
 //        return $this->sendTextMessage($receiver, $text_body);
     }
 
