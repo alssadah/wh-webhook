@@ -11,6 +11,7 @@ class WebhookController extends Controller
     public function receivedTextMessage()
     {
         Log::info(\request()->all());
+        return response()->json('', 200);
         return response()->json(\request()->hub_challenge, 200);
         return \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         return \request()->all()['entry'][0]['changes'][0]['value']['contacts'];
