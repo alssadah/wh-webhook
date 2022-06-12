@@ -27,9 +27,9 @@ class WebhookController extends Controller
         $verify_token = env('VERIFY_TOKEN', 'alaToken');
 
         // Parse params from the webhook verification request
-        $mode = \request("hub")["mode"];
-        $token = \request("hub")["verify_token"];
-        $challenge = \request("hub")["challenge"];
+        $mode = \request()->hub_mode;
+        $token = \request()->hub_verify_token;
+        $challenge = \request()->hub_challenge;
 
         // Check if a token and mode were sent
         if ($mode && $token) {
