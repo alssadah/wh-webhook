@@ -20,6 +20,7 @@ class WebhookController extends Controller
 
     public function verifyToken()
     {
+        Log::alert(\request()->all());
         /**
          * UPDATE YOUR VERIFY TOKEN
          *This will be to Verify Token value when you set up webhook
