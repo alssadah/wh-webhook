@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('webhook', [\App\Http\Controllers\WebhookController::class, 'verifyToken']);
-Route::post('message', [\App\Http\Controllers\WebhookController::class, 'receivedTextMessage']);
+Route::post('webhook', [\App\Http\Controllers\WebhookController::class, 'receivedTextMessage']);
