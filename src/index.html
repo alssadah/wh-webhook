@@ -8,6 +8,7 @@
     <title>WhatsApp Webhook</title>
 </head>
 <body>
+<h3 id="message"></h3>
 <script>
     // API for get requests
     let fetchRes = fetch(
@@ -17,7 +18,7 @@
     fetchRes.then(res =>
         res.json()).then(d => {
         console.log(d)
-        alert(d);
+        document.getElementById('message').innerHTML = d.title;
     })
 </script>
 </body>
