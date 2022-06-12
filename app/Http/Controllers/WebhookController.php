@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
+    // A webhook delivers data to other applications as it happens, meaning you get data immediately. Unlike typical APIs where you would need to poll
     public function receivedTextMessage()
     {
         Log::info(\request()->all());
