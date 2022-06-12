@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\SendMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
+    use SendMessage;
     // A webhook delivers data to other applications as it happens, meaning you get data immediately. Unlike typical APIs where you would need to poll
     public function receivedTextMessage()
     {
         Log::warning(\request()->all());
-        return response()->json((int)\request()->hub_challenge, 200);
-        return \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
-        return \request()->all()['entry'][0]['changes'][0]['value']['contacts'];
 
-        return response()->json('hay');
+        $text_body = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
+        $receiver = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['from'];
+
+        return $this->sendTextMessage($receiver, $text_body);
     }
 
     public function verifyToken()
