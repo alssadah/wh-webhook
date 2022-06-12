@@ -17,7 +17,10 @@ class WebhookController extends Controller
         $text_body = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $receiver = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['from'];
 
-        return $this->sendTextMessage($receiver, $text_body);
+        Log::debug($text_body);
+        Log::debug($receiver);
+        Log::debug($this->sendTextMessage($receiver, $text_body));
+//        return $this->sendTextMessage($receiver, $text_body);
     }
 
     public function verifyToken()
