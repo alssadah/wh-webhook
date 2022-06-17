@@ -9,7 +9,7 @@ class CommandText extends Model
 {
     // Hi Alaa
     use HasFactory;
-
+    protected $fillable = ['command_id','content','lang','status'];
     public function Command()
     {
 

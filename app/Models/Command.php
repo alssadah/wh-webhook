@@ -9,6 +9,7 @@ class Command extends Model
 {
     // Hi Alaa
     use HasFactory;
+    protected $fillable = ['command_id','command_name','command_reply','lang','status'];
     protected $primaryKey = 'command_id';
     public function CommandText()
     {

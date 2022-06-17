@@ -30,9 +30,13 @@ class ContentController extends Controller
 
     public function insertReply(Request $request)
     {
-        Command::insert(['command_name'=>$request->command,'command_reply'=>$request->reply,'lang'=>$request->lang,'status'=>1]);
+        Command::updateOrCreate(['command_name'=>$request->command,'command_reply'=>$request->reply,'lang'=>$request->lang,'status'=>1],
+        ['command_name'=> $request->command]);
+//        Command::insert(['command_name'=>$request->command,'command_reply'=>$request->reply,'lang'=>$request->lang,'status'=>1]);
         $get_id=Command::select('command_id')->where('command_name',$request->command)->first();
-        CommandText::insert(['command_id'=>$get_id->command_id,'content'=>$request->command,'lang'=>$request->lang,'status'=>'1']);
+//        CommandText::insert(['command_id'=>$get_id->command_id,'content'=>$request->command,'lang'=>$request->lang,'status'=>'1']);
+        CommandText::updateOrCreate(['command_id'=>$get_id->command_id,'content'=>$request->command,'lang'=>$request->lang,'status'=>'1'],
+        ['status'=>1]);
 
         return back();
     }
