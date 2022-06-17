@@ -19,8 +19,6 @@ class WebhookController extends Controller
         $text_body = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $receiver = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['from'];
 
-//        Log::debug($text_body);
-//        Log::debug($receiver);
         $commands=CommandText::select('content','command_id','lang')->Active()->get();
         foreach ($commands as $command )
         {

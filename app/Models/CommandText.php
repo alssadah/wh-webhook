@@ -13,7 +13,7 @@ class CommandText extends Model
     public function Command()
     {
 
-        return $this->belongsTo(Command::class);
+        return $this->belongsTo(Command::class,'command_id','command_id');
     }
 
     public function scopeActive($query)
