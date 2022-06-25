@@ -14,7 +14,8 @@ class WebhookController extends Controller
     // A webhook delivers data to other applications as it happens, meaning you get data immediately. Unlike typical APIs where you would need to poll
     public function receivedTextMessage()
     {
-        Log::warning(\request()->all());
+        return '';
+        // Log::warning(\request()->all());
 
         $text_body = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $receiver = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['from'];
@@ -25,9 +26,9 @@ class WebhookController extends Controller
             if($text_body==$command['content'])
             {
                 $getReply=Command::select('command_reply','lang')->where('command_id',$command['command_id'])->where
-                ('lang',$command['lang'])->get();
-//                Log::debug($this->sendTextMessage($receiver, $text_body));
-                Log::debug($this->sendTextMessage($receiver, $getReply['command_reply']));
+                ('lang',$command['lang'])->get()->toArray();
+//                $getReply=CommandText::find($command['command_id'])->Command['command_reply'];
+                return $this->sendTextMessage($receiver, $getReply[0]['command_reply']);
 
             }
 

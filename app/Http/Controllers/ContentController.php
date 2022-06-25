@@ -17,7 +17,8 @@ class ContentController extends Controller
     public function commandStatus($id,$status)
     {
          CommandText::where('id',$id)->update(['status' => $status==1?$status=0:$status=1]);
-         return redirect()->route('index');
+//         return redirect()->route('index');
+        return redirect('/index')->with('status', 'تم تحديث الحاله!');
     }
 
 
@@ -38,7 +39,7 @@ class ContentController extends Controller
         CommandText::updateOrCreate(['command_id'=>$get_id->command_id,'content'=>$request->command,'lang'=>$request->lang,'status'=>'1'],
         ['status'=>1]);
 
-        return back();
+        return redirect('/add')->with('status', 'تم إضافه الأمر!');
     }
 
 
@@ -46,13 +47,13 @@ class ContentController extends Controller
     {
         CommandText::insert(['command_id'=>$request->replyId,'content'=>$request->commandOptions,'status'=>'1']);
 
-        return back();
+        return redirect('/add')->with('status', 'تم إضافه الأمر!');
     }
 
     public function delCommand($id)
     {
 //        dd($id);
         CommandText::where('id',$id)->delete();
-        return back();
+        return redirect('/index')->with('status', 'تم حذف الأمر!');
     }
 }

@@ -10,12 +10,18 @@
     @endsection
         @section('content')
 
-            @if(session()->has('error') || session()->has('Success') )
-                <div class="alert alert-danger">
-                    {{ session()->get('error') || session()->has('Success') }}
-                </div>
-            @endif
+            <div class="container mt-2">
 
+            <div class="col-8 m-auto">
+
+                @if (session('status'))
+                    <div class="alert alert-success text-center h4">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+            </div>
+            </div>
             <div class="container mt-5">
                 <div class="h3 text-center text-success text-decoration-underline">
                     جدول الأوامر مع الردود
