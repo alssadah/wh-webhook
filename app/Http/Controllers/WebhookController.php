@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Command;
 use App\Models\CommandText;
 use App\Traits\SendMessage;
@@ -14,24 +15,38 @@ class WebhookController extends Controller
     // A webhook delivers data to other applications as it happens, meaning you get data immediately. Unlike typical APIs where you would need to poll
     public function receivedTextMessage()
     {
-        return '';
+//        log::debug('hello');
+//        return '';
         // Log::warning(\request()->all());
 
         $text_body = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $receiver = \request()->all()['entry'][0]['changes'][0]['value']['messages'][0]['from'];
+//        $text_body="هذي ثالث رساله مني";
+//        $receiver="967770540240";
+//        $commands=CommandText::select('content','command_id','lang')->Active()->get();
+        Client::insert(['number'=>$receiver,'message'=>$text_body]);
 
-        $commands=CommandText::select('content','command_id','lang')->Active()->get();
+        $commands=Command::select('command_name','command_reply','strict','lang')->Active()->get();
+
         foreach ($commands as $command )
         {
-            if($text_body==$command['content'])
+            if(strtolower($text_body)==$command['command_name'] || str_contains(strtolower($text_body),$command['command_name']))
             {
-                $getReply=Command::select('command_reply','lang')->where('command_id',$command['command_id'])->where
-                ('lang',$command['lang'])->get()->toArray();
-//                $getReply=CommandText::find($command['command_id'])->Command['command_reply'];
-                return $this->sendTextMessage($receiver, $getReply[0]['command_reply']);
+                $getCommand=Command::select('command_reply','strict')->where('command_name',$command['command_name'])
+                    ->get();
+                log::debug($getCommand[0]['strict']);
+
+                    $getReply=$getCommand[0]['strict']=='1' && strtolower($text_body)==$command['command_name']
+                        ?   $getCommand[0]['command_reply']:($getCommand[0]['strict']=='0'&&str_contains(strtolower($text_body),$command['command_name'])
+                        ? $getCommand[0]['command_reply']:'');
+
+                log::emergency($getReply);
+
+//           return  $getReply!=''? $this->sendTextMessage($receiver, $getReply) :'';
+//                return $this->sendTextMessage($receiver, $getReply);
 
             }
-
+    log::info('command unknown ');
         }
 //        return $this->sendTextMessage($receiver, $text_body);
     }

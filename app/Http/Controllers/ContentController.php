@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Command;
 use App\Models\CommandText;
 use Illuminate\Http\Request;
@@ -10,15 +11,30 @@ class ContentController extends Controller
     public $data;
     public function index()
     {
-        $this->data['commands'] =CommandText::all();
+//        $this->data['commands'] =Command::paginate(2);
+        $this->data['commands'] =Command::paginate(20);
         return view('index',$this->data);
+    }
+
+    public function ClientMsg()
+    {
+        $this->data['messages'] =Client::select("id","message","number")->get()->unique("number");
+//        dd($this->data['messages']);
+        return view('clientMsg',$this->data);
     }
 
     public function commandStatus($id,$status)
     {
-         CommandText::where('id',$id)->update(['status' => $status==1?$status=0:$status=1]);
+         Command::where('command_id',$id)->update(['status' => $status==1?$status=0:$status=1]);
 //         return redirect()->route('index');
         return redirect('/index')->with('status', 'تم تحديث الحاله!');
+    }
+
+    public function commandStrict($id,$strict)
+    {
+        Command::where('command_id',$id)->update(['strict' => $strict==1?$strict=0:$strict=1]);
+
+        return redirect('/index')->with('status', 'تم تحديث النمط!');
     }
 
 
@@ -31,13 +47,20 @@ class ContentController extends Controller
 
     public function insertReply(Request $request)
     {
-        Command::updateOrCreate(['command_name'=>$request->command,'command_reply'=>$request->reply,'lang'=>$request->lang,'status'=>1],
-        ['command_name'=> $request->command]);
-//        Command::insert(['command_name'=>$request->command,'command_reply'=>$request->reply,'lang'=>$request->lang,'status'=>1]);
-        $get_id=Command::select('command_id')->where('command_name',$request->command)->first();
-//        CommandText::insert(['command_id'=>$get_id->command_id,'content'=>$request->command,'lang'=>$request->lang,'status'=>'1']);
-        CommandText::updateOrCreate(['command_id'=>$get_id->command_id,'content'=>$request->command,'lang'=>$request->lang,'status'=>'1'],
-        ['status'=>1]);
+//        dd($request->all());
+        for ($i = 0; $i < count($request->command); $i++) {
+            $answers[] = [
+                'command_name' => $request->command[$i],
+                'command_reply' => $request->reply,
+                'status' => 1,
+                'lang' => $request->lang
+            ];
+        }
+
+        Command::insert($answers);
+
+
+
 
         return redirect('/add')->with('status', 'تم إضافه الأمر!');
     }
@@ -53,7 +76,7 @@ class ContentController extends Controller
     public function delCommand($id)
     {
 //        dd($id);
-        CommandText::where('id',$id)->delete();
+        Command::where('command_id',$id)->delete();
         return redirect('/index')->with('status', 'تم حذف الأمر!');
     }
 }

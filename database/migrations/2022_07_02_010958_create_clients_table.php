@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('commands', function (Blueprint $table) {
-            $table->id('command_id');
-            $table->string('command_name');
-            $table->string('command_reply');
-            $table->integer('strict');
-            $table->integer('lang');
-            $table->integer('status');
+        Schema::create('clients', function (Blueprint $table) {
+            $table->id();
+            $table->string('number')->nullable();
+            $table->string('message')->nullable();
+            $table->string('reply')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commands');
+        Schema::dropIfExists('clients');
     }
 };

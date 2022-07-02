@@ -38,27 +38,32 @@
                     <th scope="col">الأمر</th>
                     <th scope="col">الرد</th>
                     <th scope="col">حالة الأمر</th>
+                    <th scope="col">النمط الصارم</th>
                     <th scope="col">حذف الأمر</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($commands as $command)
                 <tr>
-                    <th scope="row">{{$command->id}}</th>
-                    <td>{{$command->content}}</td>
-                    <td>{{App\Models\CommandText::find($command->id)->Command['command_reply']}}</td>
+                    <th scope="row">{{$command->command_id}}</th>
+                    <td>{{$command->command_name}}</td>
+                    <td>{{$command->command_reply}}</td>
+{{--                    <td>{{App\Models\CommandText::find($command->id)->Command['command_reply']}}</td>--}}
                     <td>
 
 {{--                    <form method="post" action="/command/{{$command->id}}/{{$command->status}}">--}}
 {{--                        @csrf--}}
-                        <a  class="{{$command->status==1 ?"link-success":"link-warning"}}" href="/command/{{$command->id}}/{{$command->status}}">{{$command->status==1 ?"فعال":"موقف" }} </a>
+                        <a  class="{{$command->status==1 ?"link-success":"link-danger"}}" href="/command/{{$command->command_id}}/{{$command->status}}">{{$command->status==1 ?"فعال":"موقف" }} </a>
 {{--                    </form>--}}
 
+                    </td>
+                    <td>
+                        <a  class="{{$command->strict==1 ?"link-success":"link-warning"}}" href="/commandMode/{{$command->command_id}}/{{$command->strict}}">{{$command->strict==1 ?"فعال":"موقف" }} </a>
                     </td>
 
                     <td>
 
-                        <form method="post" action="/delCommand/{{$command->id}}">
+                        <form method="post" action="/delCommand/{{$command->command_id}}">
                             @csrf
                             <button type="submit" class="btn btn-danger">حذف </button>
                         </form>
@@ -69,6 +74,18 @@
                 </tbody>
             </table>
     </div>
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-12">
+
+                <div class=" d-flex align-items-center justify-content-center">
+
+                        {{ $commands->links() }}
+                </div>
+                    </div>
+                        </div>
+
+                </div>
 
         @endsection
 
