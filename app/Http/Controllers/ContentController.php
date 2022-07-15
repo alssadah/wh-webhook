@@ -59,9 +59,6 @@ class ContentController extends Controller
 
         Command::insert($answers);
 
-
-
-
         return redirect('/add')->with('status', 'تم إضافه الأمر!');
     }
 

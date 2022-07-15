@@ -17,18 +17,44 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('index',[\App\Http\Controllers\ContentController::class,'index'])->name('index');
+    Route::get('index',[\App\Http\Controllers\ContentController::class,'index'])->name('index');
 
-Route::get('ClientMsg',[\App\Http\Controllers\ContentController::class,'ClientMsg'])->name('ClientMsg');
+    Route::get('ClientMsg',[\App\Http\Controllers\ContentController::class,'ClientMsg'])->name('ClientMsg');
 
-Route::get('add',[\App\Http\Controllers\ContentController::class,'add'])->name('add');
+    Route::get('add',[\App\Http\Controllers\ContentController::class,'add'])->name('add');
 
-Route::get('command/{id}/{status}',[\App\Http\Controllers\ContentController::class,'commandStatus'])->name('updateStatus');
+    Route::get('command/{id}/{status}',[\App\Http\Controllers\ContentController::class,'commandStatus'])->name('updateStatus');
 
-Route::get('commandMode/{id}/{status}',[\App\Http\Controllers\ContentController::class,'commandStrict'])->name('updateStatus');
+    Route::get('commandMode/{id}/{status}',[\App\Http\Controllers\ContentController::class,'commandStrict'])->name('updateStatus');
 
-Route::post('insertCommand',[\App\Http\Controllers\ContentController::class,'insertCommand'])->name('insertCommand');
+    Route::post('insertCommand',[\App\Http\Controllers\ContentController::class,'insertCommand'])->name('insertCommand');
 
-Route::post('insertReply',[\App\Http\Controllers\ContentController::class,'insertReply'])->name('insertReply');
+    Route::post('insertReply',[\App\Http\Controllers\ContentController::class,'insertReply'])->name('insertReply');
 
-Route::post('delCommand/{id}',[\App\Http\Controllers\ContentController::class,'delCommand'])->name('delCommand');
+    Route::post('delCommand/{id}',[\App\Http\Controllers\ContentController::class,'delCommand'])->name('delCommand');
+
+
+//Route::middleware(['auth'])->group(function () {
+//    Route::get('index',[\App\Http\Controllers\ContentController::class,'index'])->name('index');
+//
+//    Route::get('ClientMsg',[\App\Http\Controllers\ContentController::class,'ClientMsg'])->name('ClientMsg');
+//
+//    Route::get('add',[\App\Http\Controllers\ContentController::class,'add'])->name('add');
+//
+//    Route::get('command/{id}/{status}',[\App\Http\Controllers\ContentController::class,'commandStatus'])->name('updateStatus');
+//
+//    Route::get('commandMode/{id}/{status}',[\App\Http\Controllers\ContentController::class,'commandStrict'])->name('updateStatus');
+//
+//    Route::post('insertCommand',[\App\Http\Controllers\ContentController::class,'insertCommand'])->name('insertCommand');
+//
+//    Route::post('insertReply',[\App\Http\Controllers\ContentController::class,'insertReply'])->name('insertReply');
+//
+//    Route::post('delCommand/{id}',[\App\Http\Controllers\ContentController::class,'delCommand'])->name('delCommand');
+//
+//});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

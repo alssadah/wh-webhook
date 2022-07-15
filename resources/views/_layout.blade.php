@@ -30,9 +30,9 @@
                         <a class="nav-link active" aria-current="page" href="/add">إضافة أمر جديد</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/ClientMsg">رسائل العملاء</a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link active" aria-current="page" href="/ClientMsg">رسائل العملاء</a>--}}
+{{--                    </li>--}}
 
                 </ul>
 
